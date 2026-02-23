@@ -10,8 +10,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         boolean salir = false;
-        String opcion_aux = "";
-        int opcion = 0;
+        String opcion_aux;
+        int opcion;
 
         while (!salir) {
             limpiarPantalla();

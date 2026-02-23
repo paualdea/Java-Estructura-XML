@@ -26,7 +26,6 @@ public class XML {
     DocumentBuilder builder;
     DOMImplementation implementation;
     Document documento = null;
-    Element usuarios;
     Source source;
     Result result;
     Transformer transformer;
