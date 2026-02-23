@@ -18,52 +18,58 @@ public class Main {
 
             System.out.print("\t\t.:GESTIÓN XML:.\n1. Añadir usuario\n2. Borrar fichero XML\n3. Salir\n\nOpción: ");
             opcion_aux = sc.next();
-            opcion = Integer.parseInt(opcion_aux);
 
-            if (opcion > 0 && opcion < 4) {
-                switch (opcion) {
-                    case 1:
-                        limpiarPantalla();
+            // Estructura para controlar la introducción de datos incorrectos
+            try {
+                opcion = Integer.parseInt(opcion_aux);
 
-                        // Saltamos la primera linea restante en el Scanner para que nos deje escribir el nombre
-                        sc.nextLine();
+                if (opcion > 0 && opcion < 4) {
+                    switch (opcion) {
+                        case 1:
+                            limpiarPantalla();
 
-                        // Pedimos todos los datos con un Scanner
-                        System.out.print("\t\t.:CREACIÓN USUARIO:.\n\nNombre usuario: ");
-                        String nombre = sc.nextLine();
-                        System.out.print("\nDirección: ");
-                        String direccion = sc.nextLine();
-                        System.out.print("\nTeléfono: ");
-                        String telefono = sc.nextLine();
-                        System.out.print("\nCorreo electrónico: ");
-                        String email = sc.nextLine();
+                            // Saltamos la primera linea restante en el Scanner para que nos deje escribir el nombre
+                            sc.nextLine();
 
-                        // Mandamos los valores recogidos a la función crearUsuario()
-                        try {
-                            xml.crearUsuario(nombre, direccion, telefono, email);
-                        } catch (Exception e) {
-                            System.err.println("Problema con permisos, comprueba si tienes permisos para escribir en el directorio de ejecución");
+                            // Pedimos todos los datos con un Scanner
+                            System.out.print("\t\t.:CREACIÓN USUARIO:.\n\nNombre usuario: ");
+                            String nombre = sc.nextLine();
+                            System.out.print("\nDirección: ");
+                            String direccion = sc.nextLine();
+                            System.out.print("\nTeléfono: ");
+                            String telefono = sc.nextLine();
+                            System.out.print("\nCorreo electrónico: ");
+                            String email = sc.nextLine();
+
+                            // Mandamos los valores recogidos a la función crearUsuario()
+                            try {
+                                xml.crearUsuario(nombre, direccion, telefono, email);
+                            } catch (Exception e) {
+                                System.err.println("Problema con permisos, comprueba si tienes permisos para escribir en el directorio de ejecución");
+                                espera();
+                            }
+
+                            break;
+                        case 2:
+                            xml.borrarFichero();
+                            break;
+                        case 3:
+                            salir = true;
+
+                            limpiarPantalla();
+                            System.err.println("Saliendo...");
                             espera();
-                        }
+                            break;
+                    }
+                } else {
+                    System.err.println("Solo se permite opciones 1-3\n");
+                    espera();
 
-                        break;
-                    case 2:
-                        xml.borrarFichero();
-                        break;
-                    case 3:
-                        salir = true;
-
-                        limpiarPantalla();
-                        System.err.println("Saliendo...");
-                        espera();
-                        break;
+                    // Pasamos la linea del escaner para que no entre en bucles de error
+                    sc.nextLine();
                 }
-            } else {
-                System.err.println("Solo se permite opciones 1-3\n");
-                espera();
-
-                // Pasamos la linea del escaner para que no entre en bucles de error
-                sc.nextLine();
+            } catch (NumberFormatException e) {
+                System.err.println("Sólo se pueden introducir números");
             }
         }
     }
