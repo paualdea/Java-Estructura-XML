@@ -23,7 +23,23 @@ public class Main {
             if (opcion > 0 && opcion < 4) {
                 switch (opcion) {
                     case 1:
-                        xml.crearUsuario("pau", "calle prueba", "659332993", "hola@prueba.cat");
+                        limpiarPantalla();
+
+                        // Saltamos la primera linea restante en el Scanner para que nos deje escribir el nombre
+                        sc.nextLine();
+
+                        // Pedimos todos los datos con un Scanner
+                        System.out.print("\t\t.:CREACIÓN USUARIO:.\n\nNombre usuario: ");
+                        String nombre = sc.nextLine();
+                        System.out.print("\nDirección: ");
+                        String direccion = sc.nextLine();
+                        System.out.print("\nTeléfono: ");
+                        String telefono = sc.nextLine();
+                        System.out.print("\nCorreo electrónico: ");
+                        String email = sc.nextLine();
+
+                        // Mandamos los valores recogidos a la función crearUsuario()
+                        xml.crearUsuario(nombre, direccion, telefono, email);
                         break;
                     case 2:
                         xml.borrarFichero();

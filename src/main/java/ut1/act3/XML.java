@@ -108,6 +108,11 @@ public class XML {
         source = new DOMSource(documento);
         result = new StreamResult(rutaXML);
         guardarFichero();
+
+        // Notificamos por pantalla la creación del usuario
+        Main.limpiarPantalla();
+        System.out.println("Usuario " + usuario + " creado correctamente");
+        Main.espera();
     }
 
     /**
@@ -134,8 +139,10 @@ public class XML {
     public void guardarFichero() {
         try {
             transformer = TransformerFactory.newInstance().newTransformer();
+            // Implementación con IA para añadir tabulación al XML final
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+
             transformer.transform(source,result);
         } catch (TransformerException e) {
             System.err.println("Error al crear el Transformer");
@@ -155,6 +162,11 @@ public class XML {
                 source = new DOMSource(documento);
                 result = new StreamResult(rutaXML);
                 guardarFichero();
+
+                // Mostramos por pantalla que se ha reseteado el fichero XML
+                Main.limpiarPantalla();
+                System.err.println("Fichero XML reseteado");
+                Main.espera();
             } catch (Exception e) {
                 System.err.println("Error al crear el fichero XML");
             }
