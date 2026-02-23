@@ -61,12 +61,7 @@ public class XML {
 
                 source = new DOMSource(documento);
                 result = new StreamResult(rutaXML);
-                try {
-                    transformer = TransformerFactory.newInstance().newTransformer();
-                    transformer.transform(source,result);
-                } catch (TransformerException e) {
-                    System.err.println("Error al crear el Transformer");
-                }
+                guardarFichero();
             }
             catch (IOException e) {
                 System.err.println("No se ha podido crear el fichero " + rutaXML);
@@ -97,35 +92,50 @@ public class XML {
         // Creamos los elementos necesarios para registrar un usuario
         Element user = documento.createElement("usuario");
 
-        // Al crear el elemento, añadimos tambien cómo hijo un objeto de tipo Text con el contenido de la variable
-        Element nombre = documento.createElement("nombre");
-        Text textNombre = documento.createTextNode(usuario);
-        nombre.appendChild(textNombre);
+        // Al crear el elemento, llamamos a la función creacionElemento para que nos cree la etiqueta y añada el texto automáticamente
+        Element nombre = creacionElemento("nombre", usuario);
         user.appendChild(nombre);
-
-        Element direction = documento.createElement("direccion");
-        Text textDirection = direction.getOwnerDocument().createTextNode(direccion);
-        direction.appendChild(textDirection);
+        Element direction = creacionElemento("direccion", direccion);
         user.appendChild(direction);
-
-        Element phone = documento.createElement("telefono");
-        Text textPhone = documento.createTextNode(telefono);
-        phone.appendChild(textPhone);
+        Element phone = creacionElemento("telefono", telefono);
         user.appendChild(phone);
-
-        Element mail = documento.createElement("email");
-        Text textMail = documento.createTextNode(email);
-        mail.appendChild(textMail);
+        Element mail = creacionElemento("email", email);
         user.appendChild(mail);
 
         // Añadimos este usuario a la raíz del fichero
-        usuarios.appendChild(user);
-        documento.getDocumentElement().appendChild(usuarios);
+        documento.getDocumentElement().appendChild(user);
 
         source = new DOMSource(documento);
         result = new StreamResult(rutaXML);
+        guardarFichero();
+    }
+
+    /**
+     * Esta función permite crear elementos de forma simplificada, creando la etiqueta y el contenido en texto que lleva dentro
+
+     * @param etiqueta
+     * Recibe un String para darle nombre al elemento a crear
+     * @param contenido
+     * Recibe el contenido pasado por el usuario para introducirlo cómo texto dentro de la etiqueta
+     * @return elemento
+     * Devuelve un elemento de tipo Element que se añadira al XML
+     */
+    public Element creacionElemento(String etiqueta, String contenido) {
+        Element elemento = documento.createElement(etiqueta);
+        Text text = documento.createTextNode(contenido);
+        elemento.appendChild(text);
+
+        return elemento;
+    }
+
+    /**
+     * Función para aplicar los cambios en el fichero usando la clase Transformer
+     */
+    public void guardarFichero() {
         try {
             transformer = TransformerFactory.newInstance().newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
             transformer.transform(source,result);
         } catch (TransformerException e) {
             System.err.println("Error al crear el Transformer");
@@ -141,22 +151,12 @@ public class XML {
 
             // Volvemos a crear la estructura básica del fichero
             try {
-                rutaXML.createNewFile();
-
-                // Creamos el elemento padre del fichero XML
-                usuarios = documento.createElement("usuarios");
-
+                documento = implementation.createDocument(null, "usuarios", null);
                 source = new DOMSource(documento);
                 result = new StreamResult(rutaXML);
-                try {
-                    transformer = TransformerFactory.newInstance().newTransformer();
-                    transformer.transform(source,result);
-                } catch (TransformerException e) {
-                    System.err.println("Error al crear el Transformer");
-                }
-            }
-            catch (IOException e) {
-                System.err.println("No se ha podido crear el fichero " + rutaXML);
+                guardarFichero();
+            } catch (Exception e) {
+                System.err.println("Error al crear el fichero XML");
             }
         } else {
             System.err.println("El fichero" + rutaXML + " no existe, no se borra nada");
