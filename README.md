@@ -24,4 +24,4 @@ Para ejecutar este programa, basta con descargar el fichero `Java-Estructura-XML
 Funciona con Windows, Mac y Linux.
 
 ___
-Este proyecto sirve como evidencia del aprendizaje sobre el manejo de ficheros XML y la estructuración jerárquica de datos para la asignatura de Acceso a Datos (Curso 2025/2026).
+Este proyecto sirve como evidencia del aprendizaje sobre el manejo de ficheros XML y la estructuración jerárquica de datos para la asignatura de Acceso a Datos.
