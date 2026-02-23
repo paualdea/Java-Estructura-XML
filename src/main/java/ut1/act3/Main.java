@@ -39,7 +39,13 @@ public class Main {
                         String email = sc.nextLine();
 
                         // Mandamos los valores recogidos a la función crearUsuario()
-                        xml.crearUsuario(nombre, direccion, telefono, email);
+                        try {
+                            xml.crearUsuario(nombre, direccion, telefono, email);
+                        } catch (Exception e) {
+                            System.err.println("Problema con permisos, comprueba si tienes permisos para escribir en el directorio de ejecución");
+                            espera();
+                        }
+
                         break;
                     case 2:
                         xml.borrarFichero();
